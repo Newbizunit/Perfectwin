@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A U.S. website concept for PerfecTwin ERP Edition. Record, reuse, and run SAP tests, then investigate results with logs and screenshots.">
+  <meta name="color-scheme" content="light">
+  <title>PerfecTwin | Confidence for every SAP change</title>
+  <style>
+    :root { --ink:#172340; --muted:#58647c; --navy:#101b35; --purple:#6649d8; --coral:#f57661; --line:#e1e5ef; --paper:#f6f7fb; --radius:18px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:100px; }
+    body { margin:0; color:var(--ink); background:#fff; font-family:Inter,"Segoe UI",Arial,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.6; }
+    body.modal-open { overflow:hidden; }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; cursor:pointer; }
+    button,a { -webkit-tap-highlight-color:transparent; }
+    button:focus-visible,a:focus-visible,summary:focus-visible { outline:3px solid #b28cff; outline-offset:5px; }
+    button:disabled { cursor:default; }
+    h1,h2,h3,p { margin:0; }
+    h1,h2,h3 { line-height:1.12; letter-spacing:-.045em; }
+    p { color:var(--muted); }
+    svg { display:block; flex-shrink:0; }
+    .wrap { width:min(1180px,calc(100% - 80px)); margin-inline:auto; }
+    .skip { position:fixed; top:-80px; left:16px; padding:10px 20px; background:white; z-index:100; }
+    .skip:focus { top:12px; }
+    .concept-bar { background:#edf0f7; color:#536078; padding:8px 20px; text-align:center; font-size:11px; letter-spacing:.035em; }
+    .concept-bar strong { color:#273451; }
+    .header { position:sticky; top:0; z-index:20; border-bottom:1px solid #e8ebf1; background:rgba(255,255,255,.97); }
+    .header-inner { min-height:83px; display:flex; align-items:center; justify-content:space-between; gap:30px; }
+    .brand { display:inline-flex; align-items:center; gap:10px; font-size:25px; font-weight:650; letter-spacing:-1.2px; white-space:nowrap; }
+    .brand-mark { width:31px; height:35px; }
+    .brand small { display:block; font-size:9px; letter-spacing:2px; font-weight:600; margin-top:-6px; color:var(--muted); }
+    .nav { display:flex; gap:28px; align-items:center; font-size:13px; font-weight:600; }
+    .nav>a:not(.btn):hover,.footer a:hover { color:var(--purple); }
+    .btn { border:1px solid transparent; display:inline-flex; align-items:center; justify-content:center; gap:16px; min-height:48px; padding:12px 22px; border-radius:7px; font-size:13px; font-weight:650; line-height:1.35; transition:transform .18s,background .18s; }
+    .btn:hover { transform:translateY(-2px); }
+    .btn-dark { background:var(--navy); color:#fff; }
+    .btn-dark:hover { background:#2a3858; }
+    .btn-coral { background:var(--coral); color:#141d31; }
+    .btn-coral:hover { background:#ff927f; }
+    .btn-outline { color:var(--ink); border-color:#d7dce8; background:white; }
+    .btn-ghost { color:#f0f1f8; border-color:#56617b; background:transparent; }
+    .arrow { font-size:18px; line-height:1; font-weight:400; }
+    .menu-toggle { display:none; border:1px solid var(--line); border-radius:6px; background:white; padding:7px 11px; color:var(--ink); }
+    .hero { background:radial-gradient(ellipse at 92% 24%,#332b60 0,transparent 45%),radial-gradient(ellipse at 10% 100%,#242c4f 0,transparent 50%),var(--navy); color:white; overflow:hidden; position:relative; }
+    .hero::after { content:""; position:absolute; width:620px; height:620px; border:1px solid #ffffff08; border-radius:50%; top:-290px; right:-210px; pointer-events:none; }
+    .hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:58px; align-items:center; padding-top:88px; padding-bottom:86px; }
+    .eyebrow { display:flex; align-items:center; gap:10px; color:var(--purple); font-size:10px; font-weight:750; letter-spacing:2px; text-transform:uppercase; margin-bottom:22px; }
+    .hero .eyebrow { color:#c0b2ff; }
+    .eyebrow::before { content:""; width:21px; height:2px; background:currentColor; }
+    h1 { font-size:clamp(44px,4.8vw,65px); font-weight:650; max-width:600px; }
+    h1 span { color:#b9a6ff; }
+    .hero-copy { font-size:16px; line-height:1.8; color:#c0c9dc; max-width:470px; margin:26px 0 30px; }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:12px; }
+    .hero-note { margin-top:21px; color:#a3afc7; font-size:11px; }
+    .hero-note span { color:#f4b3a5; margin-right:7px; }
+    .product-window { position:relative; background:#f6f8fc; border:1px solid #7888b74d; border-radius:13px; box-shadow:0 32px 85px #050b2580; color:var(--ink); transform:perspective(1500px) rotateY(-4deg) rotateX(2deg); }
+    .window-top { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid #e1e5ef; background:#fff; border-radius:13px 13px 0 0; font-size:11px; }
+    .window-title { display:flex; align-items:center; gap:7px; font-weight:700; }
+    .mini-mark { width:15px; height:17px; }
+    .window-top .label { color:#7d889e; font-size:9px; }
+    .window-body { display:grid; grid-template-columns:44px 1fr; min-height:354px; }
+    .window-rail { background:#1b2847; color:#aebbd6; border-radius:0 0 0 12px; display:flex; flex-direction:column; align-items:center; gap:23px; padding-top:23px; }
+    .rail-icon { width:15px; height:15px; border:1.5px solid currentColor; border-radius:3px; position:relative; }
+    .rail-icon:first-child { color:#c7b6ff; box-shadow:0 0 0 7px #7560b633; }
+    .rail-icon:nth-child(2) { border-radius:50%; }
+    .rail-icon:nth-child(3)::after { content:""; position:absolute; width:7px; height:5px; top:3px; left:2px; border-bottom:1px solid currentColor; }
+    .window-main { padding:22px 20px 19px; }
+    .workspace-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:16px; }
+    .workspace-heading strong { font-size:15px; letter-spacing:-.5px; }
+    .tag { display:inline-flex; align-items:center; gap:5px; border-radius:4px; padding:4px 7px; color:#6756a5; background:#eee9ff; font-size:9px; font-weight:650; }
+    .mock-metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .mock-metric { border:1px solid #e2e7ef; border-radius:6px; background:#fff; padding:12px 9px; }
+    .mock-metric small { font-size:9px; color:#7a8598; display:block; }
+    .mock-metric b { font-size:23px; font-weight:650; line-height:1.6; letter-spacing:-1px; }
+    .mock-metric b.green { color:#208268; }
+    .mock-metric b.orange { color:#c46a3f; }
+    .flow-box { padding:14px 11px 15px; background:white; border:1px solid #e2e7ef; border-radius:6px; margin-top:12px; }
+    .flow-label { font-size:10px; font-weight:650; display:flex; justify-content:space-between; margin-bottom:15px; }
+    .flow-label span { font-size:8px; color:#8b94a7; font-weight:400; }
+    .flow { display:flex; align-items:center; justify-content:center; }
+    .flow-node { padding:10px 6px; text-align:center; background:#f7f8fc; border:1px solid #dce2ee; border-radius:5px; font-size:8px; flex:1; }
+    .flow-node i { display:block; font-style:normal; color:#208268; margin-bottom:3px; font-size:11px; }
+    .flow-node.issue { background:#fff5ef; border-color:#efc7ac; }
+    .flow-node.issue i { color:#b96632; }
+    .connector { width:13px; height:1px; background:#b9c1d3; flex-shrink:0; }
+    .mock-row { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e8ecf3; padding:9px 0; gap:7px; font-size:9px; }
+    .mock-row:last-child { border:0; padding-bottom:0; }
+    .mock-row .status { color:#208268; background:#e9f5ee; padding:2px 5px; border-radius:3px; font-size:8px; }
+    .mock-row .status.review { background:#fff0e5; color:#ac653a; }
+    .window-caption { text-align:center; font-size:10px; color:#9faccc; margin-top:20px; }
+    .support-strip { border-bottom:1px solid var(--line); background:#fff; }
+    .support-inner { display:flex; justify-content:space-between; align-items:center; gap:24px; padding-block:25px; }
+    .support-inner p { max-width:225px; font-size:11px; line-height:1.6; }
+    .support-inner p strong { color:var(--ink); }
+    .support-list { display:flex; gap:35px; align-items:center; font-size:13px; font-weight:650; color:#46536c; }
+    .support-list span { display:flex; align-items:center; gap:8px; }
+    .check { color:var(--purple); font-weight:700; }
+    .section { padding-block:96px; }
+    .section-head { display:flex; justify-content:space-between; align-items:flex-end; gap:48px; margin-bottom:40px; }
+    .section-head h2 { max-width:620px; }
+    h2 { font-size:clamp(32px,3.1vw,43px); font-weight:650; }
+    .section-head>p { max-width:360px; font-size:14px; }
+    .section .eyebrow { margin-bottom:16px; }
+    .risk-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+    .risk-card { border:1px solid var(--line); border-radius:var(--radius); padding:30px; background:white; }
+    .icon-tile { display:grid; place-items:center; width:43px; height:43px; border-radius:11px; color:var(--purple); background:#f0ecfc; margin-bottom:26px; }
+    .icon-tile svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+    .risk-card h3 { font-size:21px; letter-spacing:-.6px; margin-bottom:14px; }
+    .risk-card p { font-size:13px; line-height:1.8; }
+    .risk-foot { margin-top:25px; padding-top:18px; border-top:1px solid var(--line); color:var(--purple); font-size:11px; font-weight:650; }
+    .workflow-section { background:var(--paper); border-block:1px solid #e9ecf3; }
+    .workflow-top { display:flex; align-items:center; justify-content:space-between; gap:35px; margin-bottom:33px; }
+    .workflow-top p { max-width:350px; font-size:14px; }
+    .workflow-tabs { display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid #d9deeb; gap:16px; }
+    .workflow-tab { display:flex; align-items:center; gap:10px; padding:17px 0; border:0; border-bottom:3px solid transparent; margin-bottom:-1px; background:none; color:#747f94; text-align:left; font-weight:600; font-size:14px; }
+    .workflow-tab span { color:#8993aa; font-size:10px; }
+    .workflow-tab[aria-selected="true"] { color:var(--purple); border-bottom-color:var(--purple); }
+    .workflow-tab[aria-selected="true"] span { color:var(--purple); }
+    .workflow-panel { display:grid; grid-template-columns:.9fr 1.1fr; gap:75px; align-items:center; min-height:325px; padding-top:38px; }
+    .workflow-panel[hidden] { display:none; }
+    .workflow-panel h3 { font-size:29px; margin-bottom:17px; }
+    .workflow-panel p { font-size:14px; line-height:1.8; }
+    .plain-list { padding:0; margin:22px 0 0; list-style:none; display:grid; gap:11px; font-size:12px; color:#475670; }
+    .plain-list li { display:flex; gap:10px; }
+    .plain-list li::before { content:"+"; color:var(--purple); font-weight:700; }
+    .detail-note { font-size:10px!important; margin-top:21px; color:#778299; }
+    .step-visual { background:#fff; border:1px solid var(--line); border-radius:12px; padding:25px; box-shadow:0 8px 25px #25365e06; }
+    .visual-label { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; font-size:11px; font-weight:650; }
+    .visual-label small { font-weight:400; color:#7b869d; font-size:9px; }
+    .record-row { display:flex; align-items:center; gap:12px; padding:13px 0; border-top:1px solid #edf0f6; font-size:11px; }
+    .step-count { width:23px; height:23px; display:grid; place-items:center; color:#6f59b7; background:#f0ecfc; border-radius:5px; font-size:9px; }
+    .record-row span:last-child { margin-left:auto; color:#33826d; font-size:9px; }
+    .visual-footer { margin-top:13px; display:flex; align-items:center; justify-content:space-between; font-size:9px; color:#8992a6; }
+    .visual-footer strong { color:#6855b1; font-weight:600; }
+    .mini-flow { display:flex; gap:10px; align-items:center; flex-wrap:wrap; padding-block:20px; }
+    .mini-flow span { padding:12px; background:#f1edfc; border:1px solid #ddd4f7; border-radius:6px; font-size:11px; }
+    .mini-flow b { color:#929cb0; font-weight:400; }
+    .schedule-row { display:flex; align-items:center; justify-content:space-between; padding:17px 0; border-top:1px solid var(--line); gap:15px; font-size:11px; }
+    .schedule-row strong { font-weight:600; }
+    .schedule-row span { color:#687790; }
+    .new-section { padding-block:88px; }
+    .new-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .feature-card { border-radius:var(--radius); padding:35px; border:1px solid var(--line); }
+    .feature-card.lavender { background:#f5f2ff; border-color:#e3dcf6; }
+    .feature-card.navy { background:var(--navy); color:white; border-color:var(--navy); }
+    .release-tag { display:inline-flex; padding:4px 8px; background:#e9e2fc; color:#6147a6; border-radius:4px; font-size:9px; font-weight:700; letter-spacing:.7px; text-transform:uppercase; margin-bottom:25px; }
+    .navy .release-tag { background:#ffffff12; color:#c6b9f7; }
+    .feature-card h3 { font-size:28px; margin-bottom:17px; }
+    .feature-card>p { font-size:13px; max-width:440px; }
+    .navy>p { color:#c1c9da; }
+    .feature-card .plain-list { color:#52617b; }
+    .navy .plain-list { color:#c4cde0; }
+    .navy .plain-list li::before { color:#ad98f4; }
+    .feature-card .feature-note { margin-top:25px; padding-top:18px; border-top:1px solid #dbd3ee; font-size:11px; line-height:1.7; }
+    .navy .feature-note { border-color:#ffffff20; color:#afbcd4; }
+    .release-link { display:inline-flex; align-items:center; gap:10px; padding:0; margin-top:25px; color:#674bae; border:0; border-bottom:1px solid #baa8dc; background:none; font-size:12px; font-weight:650; }
+    .use-section { background:#fafbfe; border-block:1px solid #e9ecf3; }
+    .use-layout { display:grid; grid-template-columns:.8fr 1.2fr; gap:100px; }
+    .use-intro p { margin-top:23px; font-size:14px; }
+    .use-intro .btn { margin-top:28px; }
+    .use-item { padding:25px 0; border-bottom:1px solid var(--line); display:flex; align-items:flex-start; gap:24px; }
+    .use-item:first-child { padding-top:0; }
+    .use-item:last-child { border-bottom:0; padding-bottom:0; }
+    .use-index { color:#9988ce; font-size:11px; padding-top:4px; }
+    .use-item h3 { font-size:22px; margin-bottom:12px; }
+    .use-item p { font-size:13px; }
+    .evidence { display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center; }
+    .evidence h2 { margin-bottom:22px; }
+    .evidence-copy>p { font-size:14px; }
+    .evidence-box { border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+    .evidence-top { padding:20px 25px; background:#f5f6fb; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); font-size:12px; font-weight:650; }
+    .evidence-lines { padding:8px 25px; }
+    .evidence-line { display:flex; align-items:center; justify-content:space-between; gap:15px; padding:17px 0; border-bottom:1px solid var(--line); font-size:12px; }
+    .evidence-line:last-child { border:0; }
+    .evidence-line span:last-child { font-size:10px; color:#78839a; text-align:right; }
+    .faq-section { padding-top:0; padding-bottom:90px; }
+    .faq-layout { display:grid; grid-template-columns:.7fr 1.3fr; gap:90px; }
+    .faq-layout h2 { font-size:35px; }
+    details { border-bottom:1px solid var(--line); }
+    summary { padding:21px 30px 21px 0; font-size:14px; font-weight:650; cursor:pointer; position:relative; list-style:none; }
+    summary::-webkit-details-marker { display:none; }
+    summary::after { content:"+"; position:absolute; right:3px; color:var(--purple); font-size:20px; font-weight:400; top:15px; }
+    details[open] summary::after { content:"-"; }
+    details p { font-size:13px; padding:0 28px 22px 0; line-height:1.85; }
+    .closing { background:radial-gradient(ellipse at 100% 100%,#42316a,transparent 60%),var(--navy); color:white; padding:64px 0; }
+    .closing-inner { display:flex; justify-content:space-between; align-items:center; gap:45px; }
+    .closing h2 { max-width:620px; font-size:40px; }
+    .closing p { color:#c3cce0; margin-top:18px; font-size:14px; }
+    .closing .btn { white-space:nowrap; }
+    .footer { padding:38px 0 26px; }
+    .footer-top { display:flex; justify-content:space-between; align-items:center; gap:30px; margin-bottom:30px; }
+    .footer .brand { font-size:22px; }
+    .footer-links { display:flex; gap:25px; font-size:11px; color:#647189; }
+    .footer-bottom { display:flex; justify-content:space-between; gap:25px; border-top:1px solid var(--line); padding-top:22px; font-size:10px; color:#7b869c; }
+    .source-note { background:#f7f8fb; padding:20px 0; }
+    .source-note details { border:0; }
+    .source-note summary { padding:5px 30px 5px 0; font-size:11px; font-weight:500; color:#707c94; }
+    .source-note summary::after { top:0; font-size:16px; }
+    .source-content { color:#67748c; font-size:11px; padding:18px 0 5px; max-width:900px; }
+    .source-content p { font-size:11px; padding:0 0 12px; }
+    .source-content ul { padding-left:18px; margin:0; display:grid; gap:7px; }
+    dialog { border:1px solid #dce1ee; border-radius:18px; padding:0; width:min(580px,calc(100% - 32px)); max-height:85vh; color:var(--ink); box-shadow:0 30px 100px #070f3640; }
+    dialog::backdrop { background:#101b35b8; backdrop-filter:blur(4px); }
+    .dialog-content { padding:36px; position:relative; }
+    .dialog-content h2 { font-size:30px; margin:15px 0; }
+    .dialog-content>p { font-size:14px; }
+    .dialog-content h3 { margin:25px 0 10px; font-size:18px; letter-spacing:-.3px; }
+    .dialog-content ul { padding-left:20px; color:var(--muted); font-size:13px; line-height:1.9; }
+    .dialog-close { position:absolute; right:16px; top:12px; border:0; background:transparent; color:#6e7b93; padding:6px 12px; font-size:24px; }
+    .dialog-content .btn { margin-top:20px; }
+    @media(min-width:1500px) { .hero-grid { padding-block:105px; } }
+    @media(max-width:1100px) {
+      .wrap { width:calc(100% - 56px); }
+      .nav { gap:18px; }
+      .hero-grid { gap:30px; }
+      .hero h1 { font-size:51px; }
+      .hero-copy { font-size:14px; }
+      .hero-actions .btn { padding-inline:17px; font-size:12px; }
+      .window-main { padding:20px 14px; }
+      .support-list { gap:20px; font-size:12px; }
+      .workflow-panel { gap:40px; }
+      .use-layout { gap:60px; }
+    }
+    @media(max-width:850px) {
+      .hero-grid { grid-template-columns:1fr; padding-block:65px; gap:45px; }
+      .hero h1 { max-width:650px; font-size:59px; }
+      .hero-copy { max-width:550px; font-size:16px; }
+      .hero-demo { max-width:580px; width:100%; margin:auto; }
+      .product-window { transform:none; }
+      .support-inner { align-items:flex-start; flex-direction:column; gap:18px; }
+      .support-inner p { max-width:none; }
+      .support-list { justify-content:space-between; width:100%; gap:15px; flex-wrap:wrap; }
+      .risk-grid { gap:14px; }
+      .risk-card { padding:23px; }
+      .risk-card h3 { font-size:19px; }
+      .section-head { align-items:flex-start; flex-direction:column; gap:20px; }
+      .section-head>p { max-width:580px; }
+      .workflow-top { align-items:flex-start; flex-direction:column; gap:20px; }
+      .workflow-top p { max-width:550px; }
+      .workflow-panel { gap:25px; }
+      .feature-card { padding:27px; }
+      .evidence { gap:35px; }
+      .faq-layout { gap:40px; grid-template-columns:.65fr 1.35fr; }
+      .closing-inner { align-items:flex-start; flex-direction:column; gap:28px; }
+      .section { padding-block:70px; }
+      .new-section { padding-block:70px; }
+      .nav { gap:15px; font-size:11px; }
+      .nav .btn { min-height:42px; padding:10px 14px; font-size:11px; }
+      .brand { font-size:22px; }
+      .header-inner { gap:20px; }
+    }
+    @media(max-width:640px) {
+      .wrap { width:calc(100% - 40px); }
+      .concept-bar { font-size:9px; padding:7px 16px; }
+      .header-inner { min-height:72px; }
+      .menu-toggle { display:block; }
+      .nav { display:none; position:absolute; top:72px; left:0; width:100%; padding:22px; background:white; border-bottom:1px solid var(--line); flex-direction:column; align-items:stretch; gap:6px; font-size:14px; box-shadow:0 20px 30px #17234010; }
+      .nav.is-open { display:flex; }
+      .nav>a { padding:12px; }
+      .nav .btn { font-size:13px; margin-top:8px; }
+      .hero-grid { padding-top:48px; padding-bottom:42px; gap:38px; }
+      .hero h1 { font-size:45px; }
+      .eyebrow { font-size:9px; letter-spacing:1.6px; }
+      .hero-copy { font-size:14px; margin:23px 0 26px; }
+      .hero-actions { gap:10px; }
+      .hero-actions .btn { flex:1; padding-inline:12px; font-size:11px; gap:9px; }
+      .hero-note { font-size:10px; }
+      .window-body { grid-template-columns:32px 1fr; min-height:315px; }
+      .window-main { padding:17px 12px; }
+      .window-top { padding:11px 12px; }
+      .window-top .label { font-size:8px; }
+      .workspace-heading strong { font-size:13px; }
+      .tag { font-size:8px; padding:3px 5px; }
+      .mock-metric { padding:9px 7px; }
+      .mock-metric b { font-size:21px; }
+      .mock-metric small { font-size:8px; }
+      .mock-metrics { gap:5px; }
+      .flow-box { padding:11px 7px; }
+      .flow-node { padding:8px 3px; font-size:7px; }
+      .connector { width:8px; }
+      .flow-label span { font-size:7px; }
+      .mock-row { font-size:8px; }
+      .window-caption { font-size:9px; margin-top:13px; }
+      .support-inner { padding-block:22px; }
+      .support-list { display:grid; grid-template-columns:1fr 1fr; row-gap:14px; font-size:11px; }
+      .section { padding-block:58px; }
+      .new-section { padding-block:58px; }
+      .section-head { margin-bottom:28px; gap:18px; }
+      h2 { font-size:33px; }
+      .section-head>p { font-size:13px; }
+      .risk-grid { grid-template-columns:1fr; gap:14px; }
+      .risk-card { padding:25px; }
+      .risk-card h3 { font-size:22px; }
+      .icon-tile { margin-bottom:20px; }
+      .risk-foot { margin-top:20px; }
+      .workflow-tabs { gap:9px; }
+      .workflow-tab { display:flex; flex-direction:column; align-items:flex-start; gap:4px; font-size:12px; padding-block:13px; }
+      .workflow-panel { grid-template-columns:1fr; gap:27px; padding-top:30px; }
+      .workflow-panel h3 { font-size:27px; }
+      .step-visual { padding:21px; }
+      .new-grid { grid-template-columns:1fr; gap:16px; }
+      .feature-card { padding:28px; }
+      .use-layout { grid-template-columns:1fr; gap:38px; }
+      .use-item { gap:17px; }
+      .evidence { grid-template-columns:1fr; gap:30px; }
+      .evidence-top,.evidence-lines { padding-inline:19px; }
+      .evidence-line { font-size:11px; }
+      .evidence-line span:last-child { font-size:9px; }
+      .faq-section { padding-bottom:58px; }
+      .faq-layout { grid-template-columns:1fr; gap:23px; }
+      .faq-layout h2 { font-size:31px; }
+      summary { font-size:13px; }
+      .closing { padding-block:45px; }
+      .closing h2 { font-size:33px; }
+      .closing p { font-size:13px; }
+      .footer { padding-top:30px; }
+      .footer-top { align-items:flex-start; flex-direction:column; gap:23px; }
+      .footer-links { gap:24px; flex-wrap:wrap; }
+      .footer-bottom { flex-direction:column; gap:10px; font-size:9px; }
+      .dialog-content { padding:28px 24px; }
+      .dialog-content h2 { font-size:27px; }
+    }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition:none!important; transform:none!important; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="concept-bar"><strong>U.S. WEBSITE CONCEPT</strong> &nbsp; / &nbsp; ERP Edition &nbsp; / &nbsp; Based on v26.7 documentation + v26.8-v26.9 release notes</div>
+  <header class="header">
+    <div class="wrap header-inner">
+      <a href="#main" class="brand" aria-label="PerfecTwin home">
+        <svg class="brand-mark" viewBox="0 0 34 38" aria-hidden="true"><path d="M10 4h13c10 0 12 16 0 19h-9l-3 12H4L12 9H6z" fill="#f57661"/><path d="M17 9h5c5 0 5 8-1 9h-6z" fill="#fff"/></svg>
+        <span>PerfecTwin<small>BY LG CNS</small></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav class="nav" id="main-nav" aria-label="Main navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="#use-cases">Use cases</a>
+        <a href="#whats-new">What's new</a>
+        <a href="#faq">FAQs</a>
+        <a class="btn btn-dark" href="https://perfectwin.ai/en/new_contactus">Book a demo <span class="arrow" aria-hidden="true">&#8599;</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">SAP test automation. Business confidence.</div>
+          <h1 id="hero-title">Your SAP changes.<br>Your business<br><span>keeps moving.</span></h1>
+          <p class="hero-copy">Build confidence before your next release. Record SAP workflows, turn them into reusable tests, and see where they pass or fail with PerfecTwin ERP Edition.</p>
+          <div class="hero-actions">
+            <a href="https://perfectwin.ai/en/new_contactus" class="btn btn-coral">Book a personalized demo <span class="arrow" aria-hidden="true">&#8599;</span></a>
+            <a href="#how-it-works" class="btn btn-ghost">Explore the workflow <span class="arrow" aria-hidden="true">&#8595;</span></a>
+          </div>
+          <p class="hero-note"><span aria-hidden="true">+</span> For SAP teams, QA leaders, and the people counting on them.</p>
+        </div>
+        <div class="hero-demo">
+          <div class="product-window" role="img" aria-label="Illustrative test workspace, not an actual product screenshot. Sample data: 24 test cases, 22 passed, 2 failed. A purchase order workflow shows a failed delivery validation step.">
+            <div class="window-top">
+              <div class="window-title"><svg class="mini-mark" viewBox="0 0 34 38" aria-hidden="true"><path d="M10 4h13c10 0 12 16 0 19h-9l-3 12H4L12 9H6z" fill="#f57661"/></svg> PerfecTwin</div>
+              <span class="label">ERP EDITION &nbsp; / &nbsp; WORKSPACE CONCEPT</span>
+            </div>
+            <div class="window-body">
+              <div class="window-rail" aria-hidden="true"><span class="rail-icon"></span><span class="rail-icon"></span><span class="rail-icon"></span><span class="rail-icon"></span></div>
+              <div class="window-main">
+                <div class="workspace-heading"><strong>Release readiness</strong><span class="tag">Sample test run</span></div>
+                <div class="mock-metrics">
+                  <div class="mock-metric"><small>Test cases</small><b>24</b></div>
+                  <div class="mock-metric"><small>Passed</small><b class="green">22</b></div>
+                  <div class="mock-metric"><small>Failed</small><b class="orange">2</b></div>
+                </div>
+                <div class="flow-box">
+                  <div class="flow-label">Purchase order workflow <span>ILLUSTRATIVE SCENARIO</span></div>
+                  <div class="flow" aria-hidden="true">
+                    <div class="flow-node"><i>&#10003;</i>SAP login</div><span class="connector"></span>
+                    <div class="flow-node"><i>&#10003;</i>Create order</div><span class="connector"></span>
+                    <div class="flow-node issue"><i>!</i>Validate delivery</div><span class="connector"></span>
+                    <div class="flow-node"><i>&#10003;</i>Check result</div>
+                  </div>
+                </div>
+                <div class="mock-row"><span>PO creation / test case 01</span><span class="status">Passed</span><span>View log &#8594;</span></div>
+                <div class="mock-row"><span>Delivery check / test case 02</span><span class="status review">Failed</span><span>View log &#8594;</span></div>
+                <div class="mock-row"><span>PO creation / test case 03</span><span class="status">Passed</span><span>View log &#8594;</span></div>
+              </div>
+            </div>
+          </div>
+          <p class="window-caption">Product experience illustration. Sample data, not customer results or an actual UI capture.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="support-strip">
+      <div class="wrap support-inner">
+        <p><strong>Built for connected testing.</strong><br>Documented recording targets and data tools.</p>
+        <div class="support-list" aria-label="Documented product capabilities">
+          <span><b class="check" aria-hidden="true">&#10003;</b> SAP WebGUI</span>
+          <span><b class="check" aria-hidden="true">&#10003;</b> SAP Fiori (UI5)</span>
+          <span><b class="check" aria-hidden="true">&#10003;</b> Web UI</span>
+          <span><b class="check" aria-hidden="true">&#10003;</b> Excel + SQL data</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" aria-labelledby="benefits-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Less guesswork. More visibility.</div><h2 id="benefits-title">SAP changes are complex.<br>Testing shouldn't be a blind spot.</h2></div>
+          <p>Give your team a repeatable way to test the workflows your business depends on, and the evidence to understand what happened.</p>
+        </div>
+        <div class="risk-grid">
+          <article class="risk-card">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10H7zM7 3H3v4m14-4h4v4M3 17v4h4m10 0h4v-4"/><path d="m10 12 2 2 3-4"/></svg></div>
+            <h3>Test the process.<br>Not just the screen.</h3>
+            <p>Connect recorded units into visual scenarios with branching, loops, data, and SQL nodes to build multi-step test flows.</p>
+            <div class="risk-foot">Visual scenario building</div>
+          </article>
+          <article class="risk-card">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a7 7 0 0 1 12-2l2 2M4 17l2 2a7 7 0 0 0 12-2"/></svg></div>
+            <h3>Build once.<br>Keep testing.</h3>
+            <p>Reuse recorded units and scenario templates. Run tests on demand or set recurring schedules for your regression workflow.</p>
+            <div class="risk-foot">Reusable tests + scheduled runs</div>
+          </article>
+          <article class="risk-card">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8h8M8 12h4M8 16h6"/><circle cx="18" cy="17" r="3"/><path d="m20 19 2 3"/></svg></div>
+            <h3>See the failure.<br>Find the next step.</h3>
+            <p>Drill into execution logs, variables, and screenshots for supported steps. Export PDF or Excel reports to bring the team into the conversation.</p>
+            <div class="risk-foot">Results you can investigate and share</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section workflow-section" id="how-it-works" aria-labelledby="workflow-title">
+      <div class="wrap">
+        <div class="workflow-top">
+          <div><div class="eyebrow">From workflow to evidence</div><h2 id="workflow-title">A repeatable path to confidence.</h2></div>
+          <p>Explore how a recorded interaction becomes a reusable test and a result your team can act on.</p>
+        </div>
+        <div class="workflow-tabs" role="tablist" aria-label="Test automation workflow">
+          <button class="workflow-tab" id="tab-record" type="button" role="tab" aria-selected="true" aria-controls="panel-record" tabindex="0"><span>01</span> Record</button>
+          <button class="workflow-tab" id="tab-build" type="button" role="tab" aria-selected="false" aria-controls="panel-build" tabindex="-1"><span>02</span> Build</button>
+          <button class="workflow-tab" id="tab-run" type="button" role="tab" aria-selected="false" aria-controls="panel-run" tabindex="-1"><span>03</span> Run</button>
+          <button class="workflow-tab" id="tab-investigate" type="button" role="tab" aria-selected="false" aria-controls="panel-investigate" tabindex="-1"><span>04</span> Investigate</button>
+        </div>
+        <div class="workflow-panel" id="panel-record" role="tabpanel" aria-labelledby="tab-record" tabindex="0">
+          <div><h3>Start with the work<br>your team already knows.</h3><p>Record interactions with SAP WebGUI, Fiori (UI5), or Web UI. Review the captured steps, map variables, and save the sequence as a reusable unit.</p><ul class="plain-list"><li>Inspect recorded steps and available screenshots</li><li>Map inputs and outputs with the Unit Editor</li><li>Debug with breakpoints before building a scenario</li></ul><p class="detail-note">Illustrations simplify the workflow; they are not product screenshots.</p></div>
+          <div class="step-visual">
+            <div class="visual-label">Unit / Create purchase order <small>ILLUSTRATIVE STEPS</small></div>
+            <div class="record-row"><b class="step-count">01</b> Open transaction <span>Recorded</span></div>
+            <div class="record-row"><b class="step-count">02</b> Enter purchasing details <span>Recorded</span></div>
+            <div class="record-row"><b class="step-count">03</b> Add order items <span>Recorded</span></div>
+            <div class="record-row"><b class="step-count">04</b> Read confirmation message <span>Recorded</span></div>
+            <div class="visual-footer"><span>Inputs &amp; outputs mapped to variables</span><strong>Reusable unit &#8594;</strong></div>
+          </div>
+        </div>
+        <div class="workflow-panel" id="panel-build" role="tabpanel" aria-labelledby="tab-build" tabindex="0" hidden>
+          <div><h3>Turn individual steps<br>into a business test flow.</h3><p>Drag reusable units and control nodes onto the visual scenario canvas. Add test data, define conditions, and connect the steps your test needs.</p><ul class="plain-list"><li>Branch and iterate with control nodes</li><li>Use Excel or database-backed test data</li><li>Save flows as templates for reuse</li></ul><p class="detail-note">Scenario design and data preparation are configured by your team.</p></div>
+          <div class="step-visual"><div class="visual-label">Scenario / Purchase order check <small>CONCEPT DIAGRAM</small></div><div class="mini-flow"><span>SAP login</span><b>&#8594;</b><span>Test data</span><b>&#8594;</b><span>Create order</span></div><div class="mini-flow"><span>Read result</span><b>&#8594;</b><span>Check condition</span><b>&#8594;</b><span>End</span></div><div class="visual-footer"><span>Units + control nodes + data</span><strong>Reusable scenario &#8594;</strong></div></div>
+        </div>
+        <div class="workflow-panel" id="panel-run" role="tabpanel" aria-labelledby="tab-run" tabindex="0" hidden>
+          <div><h3>Make regression testing<br>part of the routine.</h3><p>Execute a saved scenario when you need it, or configure recurring schedules. Tag runs so you can find and compare results later.</p><ul class="plain-list"><li>Run scenarios on demand</li><li>Schedule recurring runs with a selected time zone</li><li>Use tags to organize execution results</li></ul><p class="detail-note">Example schedule below is illustrative, not a default product setting.</p></div>
+          <div class="step-visual"><div class="visual-label">Regression run schedule <small>EXAMPLE CONFIGURATION</small></div><div class="schedule-row"><strong>Scenario</strong><span>Purchase order regression</span></div><div class="schedule-row"><strong>Recurrence</strong><span>Monday - Friday</span></div><div class="schedule-row"><strong>Time zone</strong><span>America/New_York</span></div><div class="schedule-row"><strong>Start time</strong><span>06:00</span></div><div class="visual-footer"><span>Schedule managed by your team</span><strong>Repeatable execution &#8594;</strong></div></div>
+        </div>
+        <div class="workflow-panel" id="panel-investigate" role="tabpanel" aria-labelledby="tab-investigate" tabindex="0" hidden>
+          <div><h3>Go from a failed test<br>to useful evidence.</h3><p>Review test case results and execution flows, then drill into logs, variables, and available screenshots. Compare the summary metrics of two eligible tagged runs of the same scenario.</p><ul class="plain-list"><li>Inspect step-level execution details</li><li>Compare pass rate, duration, and failure counts</li><li>Export PDF or Excel reports for review</li></ul><p class="detail-note">Run comparison requires different tags and completed or failed runs. Screenshot availability varies by node type.</p></div>
+          <div class="step-visual"><div class="visual-label">Execution evidence <small>ILLUSTRATIVE REVIEW</small></div><div class="record-row"><b class="step-count">01</b> Test case result <span>Inspect</span></div><div class="record-row"><b class="step-count">02</b> Execution logs + variables <span>Drill down</span></div><div class="record-row"><b class="step-count">03</b> Available step screenshots <span>Review</span></div><div class="record-row"><b class="step-count">04</b> PDF / Excel report <span>Export</span></div><div class="visual-footer"><span>Share evidence with your team</span><strong>Informed release decisions &#8594;</strong></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="new-section" id="whats-new" aria-labelledby="new-title">
+      <div class="wrap">
+        <div class="section-head"><div><div class="eyebrow">What's new in ERP Edition</div><h2 id="new-title">More visibility.<br>A new way to start recording.</h2></div><p>Highlights from the supplied September and October 2026 release notes, with feature status made clear.</p></div>
+        <div class="new-grid">
+          <article class="feature-card lavender">
+            <span class="release-tag">v26.9 / Dashboard</span>
+            <h3>Your testing picture.<br>In one workspace.</h3>
+            <p>Arrange and save dashboard widgets to follow scenario runs and monitor the systems behind your testing.</p>
+            <ul class="plain-list"><li>Scenario run summaries and unit results</li><li>CPU, disk, and application monitoring widgets</li><li>Log widgets and configurable refresh intervals</li></ul>
+            <p class="feature-note">Dashboard layouts are configurable. Available system, application, and log widgets read from the Web console or Engine.</p>
+          </article>
+          <article class="feature-card navy">
+            <span class="release-tag">v26.8 / Lab feature</span>
+            <h3>Describe a task.<br>Let AI record the steps.</h3>
+            <p>AI Recording lets an agent operate the SAP screen from a natural-language instruction while recording the test.</p>
+            <ul class="plain-list"><li>Follow progress in the live AI status panel</li><li>View per-step agent logs</li><li>Manage your LLM API key and review usage</li></ul>
+            <p class="feature-note"><strong>Lab feature, not general availability.</strong> Requires Lab enablement and your own Anthropic or OpenAI API key. This is AI-assisted recording, not a claim of fully autonomous end-to-end testing.</p>
+          </article>
+        </div>
+        <button class="release-link" id="release-button" type="button">Explore more release highlights <span aria-hidden="true">&#8594;</span></button>
+      </div>
+    </section>
+
+    <section class="section use-section" id="use-cases" aria-labelledby="use-title">
+      <div class="wrap use-layout">
+        <div class="use-intro"><div class="eyebrow">Built around your next change</div><h2 id="use-title">Start with the workflows<br>you can't afford<br>to overlook.</h2><p>Bring a business process, a change initiative, and the questions your team needs answered. We'll use those to frame the demo conversation.</p><a class="btn btn-outline" href="https://perfectwin.ai/en/new_contactus">Talk through your use case <span class="arrow" aria-hidden="true">&#8599;</span></a></div>
+        <div>
+          <article class="use-item"><span class="use-index">01 /</span><div><h3>Regression before a release</h3><p>Reuse test units and scenarios to check selected business workflows after a change. Review execution evidence before making a release decision.</p></div></article>
+          <article class="use-item"><span class="use-index">02 /</span><div><h3>SAP modernization validation</h3><p>Evaluate how recorded, data-driven scenarios can support the test plan for your SAP change program. Confirm target interfaces and environment fit in a technical demo.</p></div></article>
+          <article class="use-item"><span class="use-index">03 /</span><div><h3>Connected web workflows</h3><p>Build scenarios with SAP WebGUI, Fiori (UI5), and Web UI units. Add data and control nodes to test the paths relevant to your process.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="evidence-title">
+      <div class="wrap evidence">
+        <div class="evidence-copy"><div class="eyebrow">Evidence over assumptions</div><h2 id="evidence-title">Bring more than<br>a pass/fail answer.</h2><p>Give QA, engineering, and business stakeholders a shared starting point: what ran, where it failed, and the execution details available to investigate it.</p><ul class="plain-list"><li>View scenario flows and test case results</li><li>Investigate supported step logs and screenshots</li><li>Export a report at the level of detail you need</li></ul></div>
+        <div class="evidence-box"><div class="evidence-top"><span>From execution to review</span><span class="tag">Documented capabilities</span></div><div class="evidence-lines"><div class="evidence-line"><span>Scenario execution flow</span><span>Locate the failing node</span></div><div class="evidence-line"><span>Logs + captured variables</span><span>Inspect execution context</span></div><div class="evidence-line"><span>Step screenshots</span><span>For supported node types</span></div><div class="evidence-line"><span>Tagged-run comparison</span><span>Pass rate, duration, failures</span></div><div class="evidence-line"><span>PDF + Excel exports</span><span>Scenario, node, or step level</span></div></div></div>
+      </div>
+    </section>
+
+    <section class="faq-section" id="faq" aria-labelledby="faq-title">
+      <div class="wrap faq-layout">
+        <div><div class="eyebrow">A few practical answers</div><h2 id="faq-title">Clarity before<br>the conversation.</h2></div>
+        <div>
+          <details><summary>Which SAP and web interfaces are covered here?</summary><p>The supplied ERP Edition manual documents recording targets for SAP WebGUI, SAP Fiori (UI5), and Web UI. The v26.9 release adds SAP GUI tree actions captured within a WebGUI unit. This concept does not imply native desktop SAP GUI support, universal SAP version compatibility, or coverage of every interface. Confirm your specific environment with the product team.</p></details>
+          <details><summary>Is AI Recording included as a standard feature?</summary><p>The v26.8 notes identify AI Recording as a Lab feature. It appears only when enabled in Lab and requires the user to register an Anthropic or OpenAI API key in AI Management. AI Recording operates the SAP screen from an instruction and records the interaction; it is not evidence that the entire testing lifecycle is autonomous. Confirm availability and suitability for your deployment.</p></details>
+          <details><summary>Can we use our own test data?</summary><p>The manual documents test data and source data management with Excel and database-backed workflows. The v26.8 update adds database source-data download to Excel, with an edit-and-upload round trip. Your team still needs to prepare suitable test data and confirm access, privacy, and environment requirements.</p></details>
+          <details><summary>How does result comparison work?</summary><p>Compare two completed or failed runs of the same scenario with different tags. The documented comparison shows summary metrics including pass rate, duration, and failure counts. It should not be described as automatic field-by-field reconciliation between two production systems.</p></details>
+          <details><summary>What should we bring to a demo?</summary><p>Start with a representative workflow, the SAP and web interfaces it touches, your change initiative, and how you currently evaluate results. Ask the product team to confirm deployment options, version compatibility, licensing, data handling, support, and any required integrations. Those commercial and technical details are not established by the documents used for this concept.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <div class="wrap closing-inner"><div><h2 id="closing-title">Your next SAP change<br>deserves a clearer test plan.</h2><p>See how PerfecTwin ERP Edition could fit your team's workflow.</p></div><a class="btn btn-coral" href="https://perfectwin.ai/en/new_contactus">Book a personalized demo <span class="arrow" aria-hidden="true">&#8599;</span></a></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top"><a class="brand" href="#main" aria-label="PerfecTwin back to top"><svg class="brand-mark" viewBox="0 0 34 38" aria-hidden="true"><path d="M10 4h13c10 0 12 16 0 19h-9l-3 12H4L12 9H6z" fill="#f57661"/><path d="M17 9h5c5 0 5 8-1 9h-6z" fill="#fff"/></svg><span>PerfecTwin<small>BY LG CNS</small></span></a><div class="footer-links"><a href="#how-it-works">Product workflow</a><a href="#whats-new">Release highlights</a><a href="https://perfectwin.ai/en/new_contactus">Contact PerfecTwin &#8599;</a></div></div>
+      <div class="footer-bottom"><span>PerfecTwin U.S. website concept. Not an official published product page.</span><span>SAP and other product names belong to their respective owners.</span></div>
+    </div>
+  </footer>
+
+  <aside class="source-note" aria-label="Concept source notes">
+    <div class="wrap">
+      <details>
+        <summary>About this concept: source documents, claim boundaries, and items to confirm before publication</summary>
+        <div class="source-content">
+          <p><strong>Scope:</strong> PerfecTwin ERP Edition only. The 372-page v26.7 User Manual and the 14-page v26.8-v26.9 Release Notes are the product sources. The release notes take precedence where behavior has changed. This is a marketing interpretation of documented capabilities, not independent product verification or confirmation of commercial availability.</p>
+          <ul>
+            <li><strong>Record and reuse:</strong> Manual pp. 4-14 and recording target sections beginning pp. 15, 34, and 98. Visual scenarios and templates: pp. 244-303. Scheduled runs: pp. 304-312.</li>
+            <li><strong>Data and governance:</strong> Manual pp. 313-339 for data management; pp. 350-357 for user and role administration. No compliance certification or security guarantee is inferred.</li>
+            <li><strong>Results:</strong> Manual pp. 340-349. Tagged-run comparison is a summary-metric comparison, not a claim of transaction-level system reconciliation.</li>
+            <li><strong>AI:</strong> Release Notes pp. 2-4. AI Recording is a Lab feature with BYOK requirements. Do not market it as generally available or fully autonomous testing.</li>
+            <li><strong>New features:</strong> Release Notes pp. 4-7 for Web UI, Header-Loop, data, and file improvements; pp. 9-14 for dashboards, GUI Tree, and result storage and cleanup changes.</li>
+            <li><strong>Illustrations:</strong> All interface visuals, test values, workflow names, and the sample schedule are illustrative. They are not customer evidence, measured outcomes, or exact reproductions of the product UI.</li>
+            <li><strong>Deliberately omitted:</strong> Unverified ROI, speed and coverage statistics, customer endorsements, certifications, U.S. customer or support claims, native desktop GUI claims, pricing, and guarantees of SAP version or migration compatibility.</li>
+            <li><strong>Before publishing:</strong> Obtain HQ and U.S. sales approval of claims and feature availability. Confirm supported SAP versions, deployment and data-handling terms, licensing, support, integration scope, brand assets, and approved case studies. Review AI provider data handling and costs before promotion.</li>
+            <li><strong>Demo links:</strong> Buttons navigate to the existing PerfecTwin contact page. This standalone prototype has no lead-capture backend, tracking, remote fonts, or third-party scripts.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </aside>
+
+  <dialog id="release-dialog" aria-labelledby="release-dialog-title">
+    <div class="dialog-content">
+      <button class="dialog-close" type="button" aria-label="Close release highlights">&times;</button>
+      <span class="release-tag">ERP Edition / v26.8 + v26.9</span>
+      <h2 id="release-dialog-title">More control over<br>your testing workflow.</h2>
+      <p>Additional highlights from the supplied release notes.</p>
+      <h3>v26.8 / September 2026</h3>
+      <ul><li>Configure browser dialog handling and browser locale for Web UI actions.</li><li>Use Header-Loop nodes for header/sub-sheet data iteration.</li><li>Record and replay SAP WebGUI file downloads.</li><li>Download database source data to Excel, edit, and upload it again.</li><li>Download, delete, or move multiple files in File Storage.</li></ul>
+      <h3>v26.9 / October 2026</h3>
+      <ul><li>Record and replay SAP GUI tree actions within WebGUI units.</li><li>Delete eligible finished execution results with related evidence.</li><li>Store new-run screenshots as server files instead of in the database.</li><li>Automatically clean up eligible editor trial/debug results after a configurable retention period; the documented default is 30 days.</li></ul>
+      <p class="detail-note">Confirm deployment-specific availability and upgrade requirements with the product team. "Trial run" here means an editor debug run, not a free product trial.</p>
+      <button class="btn btn-dark dialog-done" type="button">Back to the concept</button>
+    </div>
+  </dialog>
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const navigation = document.querySelector('#main-nav');
+    const closeMenu = () => {
+      navigation.classList.remove('is-open');
+      menuButton.setAttribute('aria-expanded', 'false');
+    };
+    menuButton.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') !== 'true';
+      navigation.classList.toggle('is-open', open);
+      menuButton.setAttribute('aria-expanded', String(open));
+    });
+    navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+        menuButton.focus();
+      }
+    });
+    window.matchMedia('(min-width:641px)').addEventListener('change', event => {
+      if (event.matches) closeMenu();
+    });
+
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    const activateTab = tab => {
+      tabs.forEach(item => {
+        const selected = item === tab;
+        item.setAttribute('aria-selected', String(selected));
+        item.tabIndex = selected ? 0 : -1;
+        document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+      });
+    };
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activateTab(tab));
+      tab.addEventListener('keydown', event => {
+        let next;
+        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === 'Home') next = 0;
+        if (event.key === 'End') next = tabs.length - 1;
+        if (next !== undefined) {
+          event.preventDefault();
+          activateTab(tabs[next]);
+          tabs[next].focus();
+        }
+      });
+    });
+
+    const releaseDialog = document.querySelector('#release-dialog');
+    document.querySelector('#release-button').addEventListener('click', () => {
+      releaseDialog.showModal();
+      document.body.classList.add('modal-open');
+    });
+    releaseDialog.querySelectorAll('.dialog-close,.dialog-done').forEach(button => {
+      button.addEventListener('click', () => releaseDialog.close());
+    });
+    releaseDialog.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        releaseDialog.close();
+      }
+    });
+    releaseDialog.addEventListener('close', () => document.body.classList.remove('modal-open'));
+    releaseDialog.addEventListener('click', event => {
+      const bounds = releaseDialog.getBoundingClientRect();
+      if (event.target === releaseDialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) releaseDialog.close();
+    });
+  </script>
+</body>
+</html>
