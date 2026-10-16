@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A U.S. website concept for PerfecTwin ERP Edition. Record, reuse, and run SAP tests, then investigate results with logs and screenshots.">
+  <meta name="description" content="Build confidence in SAP S/4HANA transformation with real-transaction-based regression testing, reusable business-process scenarios, and reviewable execution evidence.">
   <meta name="color-scheme" content="light">
-  <title>PerfecTwin | Confidence for every SAP change</title>
+  <title>PerfecTwin | S/4HANA transformation confidence</title>
   <style>
     :root { --ink:#172340; --muted:#58647c; --navy:#101b35; --purple:#6649d8; --coral:#f57661; --line:#e1e5ef; --paper:#f6f7fb; --radius:18px; }
     * { box-sizing:border-box; }
@@ -110,6 +110,41 @@
     .risk-card h3 { font-size:21px; letter-spacing:-.6px; margin-bottom:14px; }
     .risk-card p { font-size:13px; line-height:1.8; }
     .risk-foot { margin-top:25px; padding-top:18px; border-top:1px solid var(--line); color:var(--purple); font-size:11px; font-weight:650; }
+    .stakes-section { background:var(--navy); color:white; }
+    .stakes-section .eyebrow { color:#c0b2ff; }
+    .stakes-section h2 { max-width:720px; }
+    .stakes-intro { display:grid; grid-template-columns:1.05fr .95fr; gap:80px; align-items:end; margin-bottom:48px; }
+    .stakes-intro>p { color:#bcc7dc; font-size:15px; max-width:470px; }
+    .stakes-grid { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid #ffffff1c; border-radius:var(--radius); overflow:hidden; }
+    .stake { padding:31px; border-right:1px solid #ffffff1c; background:#ffffff05; }
+    .stake:last-child { border-right:0; }
+    .stake span { display:block; color:#ad9bea; font-size:10px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; margin-bottom:17px; }
+    .stake h3 { font-size:21px; letter-spacing:-.5px; margin-bottom:13px; }
+    .stake p { color:#b6c1d6; font-size:13px; }
+    .positioning { display:grid; grid-template-columns:.85fr 1.15fr; gap:70px; align-items:start; }
+    .positioning-copy { position:sticky; top:125px; }
+    .positioning-copy p { margin-top:22px; font-size:14px; }
+    .positioning-copy .btn { margin-top:27px; }
+    .positioning-list { border-top:1px solid var(--line); }
+    .positioning-row { display:grid; grid-template-columns:42px 1fr; gap:20px; padding:26px 0; border-bottom:1px solid var(--line); }
+    .positioning-row>span { color:#9b89d1; font-size:11px; padding-top:4px; }
+    .positioning-row h3 { font-size:22px; margin-bottom:9px; }
+    .positioning-row p { font-size:13px; }
+    .comparison-section { background:#f8f6ff; border-block:1px solid #e6e0f4; }
+    .comparison-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+    .comparison-card { border:1px solid #ded9ec; border-radius:var(--radius); padding:34px; background:#fff; }
+    .comparison-card.highlight { background:var(--navy); border-color:var(--navy); color:#fff; }
+    .comparison-card>span { display:block; color:#7e6db6; font-size:10px; font-weight:750; letter-spacing:1.3px; text-transform:uppercase; margin-bottom:20px; }
+    .comparison-card.highlight>span { color:#b9a7f4; }
+    .comparison-card h3 { font-size:27px; margin-bottom:18px; }
+    .comparison-card p { font-size:13px; }
+    .comparison-card.highlight p { color:#bec8db; }
+    .comparison-card ul { list-style:none; padding:0; margin:24px 0 0; display:grid; gap:13px; color:#536078; font-size:12px; }
+    .comparison-card.highlight ul { color:#c6d0e2; }
+    .comparison-card li { display:flex; gap:10px; }
+    .comparison-card li::before { content:"—"; color:#9a87d3; }
+    .comparison-card.highlight li::before { content:"+"; color:#b8a4f7; font-weight:700; }
+    .qualification { margin-top:21px; font-size:10px!important; color:#78849a!important; }
     .workflow-section { background:var(--paper); border-block:1px solid #e9ecf3; }
     .workflow-top { display:flex; align-items:center; justify-content:space-between; gap:35px; margin-bottom:33px; }
     .workflow-top p { max-width:350px; font-size:14px; }
@@ -235,6 +270,8 @@
       .risk-grid { gap:14px; }
       .risk-card { padding:23px; }
       .risk-card h3 { font-size:19px; }
+      .stakes-intro { gap:35px; }
+      .positioning { gap:40px; }
       .section-head { align-items:flex-start; flex-direction:column; gap:20px; }
       .section-head>p { max-width:580px; }
       .workflow-top { align-items:flex-start; flex-direction:column; gap:20px; }
@@ -295,6 +332,13 @@
       .risk-card h3 { font-size:22px; }
       .icon-tile { margin-bottom:20px; }
       .risk-foot { margin-top:20px; }
+      .stakes-intro,.positioning { grid-template-columns:1fr; gap:28px; }
+      .stakes-grid { grid-template-columns:1fr; }
+      .stake { border-right:0; border-bottom:1px solid #ffffff1c; }
+      .stake:last-child { border-bottom:0; }
+      .positioning-copy { position:static; }
+      .comparison-grid { grid-template-columns:1fr; }
+      .comparison-card { padding:27px; }
       .workflow-tabs { gap:9px; }
       .workflow-tab { display:flex; flex-direction:column; align-items:flex-start; gap:4px; font-size:12px; padding-block:13px; }
       .workflow-panel { grid-template-columns:1fr; gap:27px; padding-top:30px; }
@@ -336,9 +380,9 @@
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
       <nav class="nav" id="main-nav" aria-label="Main navigation">
+        <a href="#why-perfectwin">Why PerfecTwin</a>
         <a href="#how-it-works">How it works</a>
         <a href="#use-cases">Use cases</a>
-        <a href="#whats-new">What's new</a>
         <a href="#faq">FAQs</a>
         <a class="btn btn-dark" href="https://perfectwin.ai/en/new_contactus">Book a demo <span class="arrow" aria-hidden="true">&#8599;</span></a>
       </nav>
@@ -349,14 +393,14 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
         <div>
-          <div class="eyebrow">SAP test automation. Business confidence.</div>
-          <h1 id="hero-title">Your SAP changes.<br>Your business<br><span>keeps moving.</span></h1>
-          <p class="hero-copy">Build confidence before your next release. Record SAP workflows, turn them into reusable tests, and see where they pass or fail with PerfecTwin ERP Edition.</p>
+          <div class="eyebrow">Real-transaction-based SAP regression testing</div>
+          <h1 id="hero-title">Move to S/4HANA.<br>Keep the business<br><span>moving.</span></h1>
+          <p class="hero-copy">Turn the SAP workflows your business depends on into repeatable tests. PerfecTwin helps transformation teams validate critical process behavior, investigate failures, and bring clearer evidence to go-live decisions.</p>
           <div class="hero-actions">
-            <a href="https://perfectwin.ai/en/new_contactus" class="btn btn-coral">Book a personalized demo <span class="arrow" aria-hidden="true">&#8599;</span></a>
-            <a href="#how-it-works" class="btn btn-ghost">Explore the workflow <span class="arrow" aria-hidden="true">&#8595;</span></a>
+            <a href="https://perfectwin.ai/en/new_contactus" class="btn btn-coral">Map your migration test case <span class="arrow" aria-hidden="true">&#8599;</span></a>
+            <a href="#why-perfectwin" class="btn btn-ghost">See why PerfecTwin <span class="arrow" aria-hidden="true">&#8595;</span></a>
           </div>
-          <p class="hero-note"><span aria-hidden="true">+</span> For SAP teams, QA leaders, and the people counting on them.</p>
+          <p class="hero-note"><span aria-hidden="true">+</span> For S/4HANA program leaders, SAP teams, QA leaders, and business-process owners.</p>
         </div>
         <div class="hero-demo">
           <div class="product-window" role="img" aria-label="Illustrative test workspace, not an actual product screenshot. Sample data: 24 test cases, 22 passed, 2 failed. A purchase order workflow shows a failed delivery validation step.">
@@ -367,7 +411,7 @@
             <div class="window-body">
               <div class="window-rail" aria-hidden="true"><span class="rail-icon"></span><span class="rail-icon"></span><span class="rail-icon"></span><span class="rail-icon"></span></div>
               <div class="window-main">
-                <div class="workspace-heading"><strong>Release readiness</strong><span class="tag">Sample test run</span></div>
+                <div class="workspace-heading"><strong>S/4HANA readiness</strong><span class="tag">Sample test run</span></div>
                 <div class="mock-metrics">
                   <div class="mock-metric"><small>Test cases</small><b>24</b></div>
                   <div class="mock-metric"><small>Passed</small><b class="green">22</b></div>
@@ -395,7 +439,7 @@
 
     <div class="support-strip">
       <div class="wrap support-inner">
-        <p><strong>Built for connected testing.</strong><br>Documented recording targets and data tools.</p>
+        <p><strong>Follow the business process.</strong><br>Across documented SAP and web recording targets.</p>
         <div class="support-list" aria-label="Documented product capabilities">
           <span><b class="check" aria-hidden="true">&#10003;</b> SAP WebGUI</span>
           <span><b class="check" aria-hidden="true">&#10003;</b> SAP Fiori (UI5)</span>
@@ -405,22 +449,36 @@
       </div>
     </div>
 
-    <section class="section" aria-labelledby="benefits-title">
+    <section class="section stakes-section" aria-labelledby="stakes-title">
+      <div class="wrap">
+        <div class="stakes-intro">
+          <div><div class="eyebrow">The transformation question that matters</div><h2 id="stakes-title">When the new system goes live, will the business still work?</h2></div>
+          <p>An S/4HANA program changes more than technology. It can change screens, data structures, custom logic, integrations, and the workflows people rely on every day. Testing has to make that operational risk visible.</p>
+        </div>
+        <div class="stakes-grid">
+          <article class="stake"><span>Before cutover</span><h3>Turn critical workflows into repeatable tests.</h3><p>Record SAP and web interactions, map the required data, and connect reusable units into business-process scenarios.</p></article>
+          <article class="stake"><span>During readiness</span><h3>Run the scenarios that matter to the business.</h3><p>Execute on demand or on a schedule, organize results with tags, and follow progress through documented result views and dashboards.</p></article>
+          <article class="stake"><span>When issues appear</span><h3>Bring evidence to the decision.</h3><p>Trace failures through execution flows, logs, variables, and available screenshots, then export results for review.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="why-perfectwin" aria-labelledby="benefits-title">
       <div class="wrap">
         <div class="section-head">
-          <div><div class="eyebrow">Less guesswork. More visibility.</div><h2 id="benefits-title">SAP changes are complex.<br>Testing shouldn't be a blind spot.</h2></div>
-          <p>Give your team a repeatable way to test the workflows your business depends on, and the evidence to understand what happened.</p>
+          <div><div class="eyebrow">Why PerfecTwin</div><h2 id="benefits-title">Test the business reality.<br>Not a simplified version of it.</h2></div>
+          <p>PerfecTwin's most defensible difference is its focus on real-transaction-based SAP validation—not a promise that AI will remove every testing task.</p>
         </div>
         <div class="risk-grid">
           <article class="risk-card">
             <div class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10H7zM7 3H3v4m14-4h4v4M3 17v4h4m10 0h4v-4"/><path d="m10 12 2 2 3-4"/></svg></div>
-            <h3>Test the process.<br>Not just the screen.</h3>
+            <h3>Model the process.<br>Not just one screen.</h3>
             <p>Connect recorded units into visual scenarios with branching, loops, data, and SQL nodes to build multi-step test flows.</p>
             <div class="risk-foot">Visual scenario building</div>
           </article>
           <article class="risk-card">
             <div class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a7 7 0 0 1 12-2l2 2M4 17l2 2a7 7 0 0 0 12-2"/></svg></div>
-            <h3>Build once.<br>Keep testing.</h3>
+            <h3>Reuse the work.<br>Keep validating.</h3>
             <p>Reuse recorded units and scenario templates. Run tests on demand or set recurring schedules for your regression workflow.</p>
             <div class="risk-foot">Reusable tests + scheduled runs</div>
           </article>
@@ -434,11 +492,35 @@
       </div>
     </section>
 
+    <section class="section comparison-section" aria-labelledby="difference-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">A sharper reason to choose</div><h2 id="difference-title">Broad automation is not the same as SAP transformation confidence.</h2></div>
+          <p>PerfecTwin should win on the relevance of the evidence it creates for SAP change—not by claiming to replace every testing platform.</p>
+        </div>
+        <div class="comparison-grid">
+          <article class="comparison-card">
+            <span>Conventional automation conversation</span>
+            <h3>How many test cases<br>can we automate?</h3>
+            <p>A broad enterprise platform may emphasize codeless authoring, portfolio-wide coverage, AI maintenance, and change-impact analysis.</p>
+            <ul><li>Useful for broad application portfolios</li><li>Value depends on test design, data, and maintenance</li><li>Feature breadth can dominate the buying conversation</li></ul>
+          </article>
+          <article class="comparison-card highlight">
+            <span>The PerfecTwin conversation</span>
+            <h3>Which business processes<br>must survive the change?</h3>
+            <p>Center the test strategy on real transaction behavior, reusable SAP process scenarios, and execution evidence stakeholders can inspect.</p>
+            <ul><li>Start from business-critical SAP workflows</li><li>Use real-transaction-based scenarios and data</li><li>Connect SAP WebGUI, Fiori, and web interactions</li><li>Investigate and share the evidence behind results</li></ul>
+          </article>
+        </div>
+        <p class="qualification">This is a positioning comparison, not a tested product benchmark. Feature coverage, implementation effort, and fit should be evaluated against your environment and requirements.</p>
+      </div>
+    </section>
+
     <section class="section workflow-section" id="how-it-works" aria-labelledby="workflow-title">
       <div class="wrap">
         <div class="workflow-top">
-          <div><div class="eyebrow">From workflow to evidence</div><h2 id="workflow-title">A repeatable path to confidence.</h2></div>
-          <p>Explore how a recorded interaction becomes a reusable test and a result your team can act on.</p>
+          <div><div class="eyebrow">From current-state behavior to go-live evidence</div><h2 id="workflow-title">A repeatable path to transformation confidence.</h2></div>
+          <p>Explore how a familiar SAP interaction becomes a reusable business-process test and a result your program can act on.</p>
         </div>
         <div class="workflow-tabs" role="tablist" aria-label="Test automation workflow">
           <button class="workflow-tab" id="tab-record" type="button" role="tab" aria-selected="true" aria-controls="panel-record" tabindex="0"><span>01</span> Record</button>
@@ -497,11 +579,12 @@
 
     <section class="section use-section" id="use-cases" aria-labelledby="use-title">
       <div class="wrap use-layout">
-        <div class="use-intro"><div class="eyebrow">Built around your next change</div><h2 id="use-title">Start with the workflows<br>you can't afford<br>to overlook.</h2><p>Bring a business process, a change initiative, and the questions your team needs answered. We'll use those to frame the demo conversation.</p><a class="btn btn-outline" href="https://perfectwin.ai/en/new_contactus">Talk through your use case <span class="arrow" aria-hidden="true">&#8599;</span></a></div>
+        <div class="use-intro"><div class="eyebrow">Build the business case</div><h2 id="use-title">Start with the workflows<br>you can't afford<br>to disrupt.</h2><p>Do not begin the sales conversation with a generic feature tour. Begin with one critical process, one transformation milestone, and the evidence your go-live decision needs.</p><a class="btn btn-outline" href="https://perfectwin.ai/en/new_contactus">Map a critical workflow <span class="arrow" aria-hidden="true">&#8599;</span></a></div>
         <div>
-          <article class="use-item"><span class="use-index">01 /</span><div><h3>Regression before a release</h3><p>Reuse test units and scenarios to check selected business workflows after a change. Review execution evidence before making a release decision.</p></div></article>
-          <article class="use-item"><span class="use-index">02 /</span><div><h3>SAP modernization validation</h3><p>Evaluate how recorded, data-driven scenarios can support the test plan for your SAP change program. Confirm target interfaces and environment fit in a technical demo.</p></div></article>
-          <article class="use-item"><span class="use-index">03 /</span><div><h3>Connected web workflows</h3><p>Build scenarios with SAP WebGUI, Fiori (UI5), and Web UI units. Add data and control nodes to test the paths relevant to your process.</p></div></article>
+          <article class="use-item"><span class="use-index">01 /</span><div><h3>S/4HANA transformation regression</h3><p>Reuse units and scenarios to check selected business workflows as the target environment changes. Review execution evidence before a readiness decision.</p></div></article>
+          <article class="use-item"><span class="use-index">02 /</span><div><h3>Cutover rehearsal and go-live readiness</h3><p>Use repeatable scenarios to support rehearsal cycles and focus stakeholder review on the processes that must work on day one. PerfecTwin supports the test plan; it does not replace cutover governance or UAT.</p></div></article>
+          <article class="use-item"><span class="use-index">03 /</span><div><h3>Continuous validation after go-live</h3><p>Schedule regression scenarios as upgrades and operational changes continue. Track runs through results and dashboards instead of treating testing as a one-time migration event.</p></div></article>
+          <article class="use-item"><span class="use-index">04 /</span><div><h3>Connected SAP and web workflows</h3><p>Build scenarios with documented SAP WebGUI, Fiori (UI5), and Web UI units. Add data and control nodes to follow the paths relevant to your process.</p></div></article>
         </div>
       </div>
     </section>
@@ -517,6 +600,8 @@
       <div class="wrap faq-layout">
         <div><div class="eyebrow">A few practical answers</div><h2 id="faq-title">Clarity before<br>the conversation.</h2></div>
         <div>
+          <details><summary>Is PerfecTwin an S/4HANA data-migration reconciliation tool?</summary><p>Not based on the supplied documentation. The strongest supported positioning is SAP business-process and regression testing around a transformation. The manual documents scenario execution, test data, SQL nodes, result evidence, and summary comparison between tagged runs; it does not establish automated field-by-field source-to-target reconciliation for an entire migration. Any separate reconciliation capability should be confirmed and documented before it is marketed.</p></details>
+          <details><summary>How should we evaluate PerfecTwin against a broad platform such as Tricentis Tosca?</summary><p>Compare the products against your actual priority workflows, interfaces, data approach, authoring and maintenance effort, evidence requirements, deployment model, and total implementation scope. Broad platforms may offer capabilities outside PerfecTwin's documented scope. PerfecTwin's most credible evaluation angle is the relevance of its real-transaction-based SAP process testing and execution evidence for your transformation—not an unsupported claim that it is universally superior.</p></details>
           <details><summary>Which SAP and web interfaces are covered here?</summary><p>The supplied ERP Edition manual documents recording targets for SAP WebGUI, SAP Fiori (UI5), and Web UI. The v26.9 release adds SAP GUI tree actions captured within a WebGUI unit. This concept does not imply native desktop SAP GUI support, universal SAP version compatibility, or coverage of every interface. Confirm your specific environment with the product team.</p></details>
           <details><summary>Is AI Recording included as a standard feature?</summary><p>The v26.8 notes identify AI Recording as a Lab feature. It appears only when enabled in Lab and requires the user to register an Anthropic or OpenAI API key in AI Management. AI Recording operates the SAP screen from an instruction and records the interaction; it is not evidence that the entire testing lifecycle is autonomous. Confirm availability and suitability for your deployment.</p></details>
           <details><summary>Can we use our own test data?</summary><p>The manual documents test data and source data management with Excel and database-backed workflows. The v26.8 update adds database source-data download to Excel, with an edit-and-upload round trip. Your team still needs to prepare suitable test data and confirm access, privacy, and environment requirements.</p></details>
@@ -527,7 +612,7 @@
     </section>
 
     <section class="closing" aria-labelledby="closing-title">
-      <div class="wrap closing-inner"><div><h2 id="closing-title">Your next SAP change<br>deserves a clearer test plan.</h2><p>See how PerfecTwin ERP Edition could fit your team's workflow.</p></div><a class="btn btn-coral" href="https://perfectwin.ai/en/new_contactus">Book a personalized demo <span class="arrow" aria-hidden="true">&#8599;</span></a></div>
+      <div class="wrap closing-inner"><div><h2 id="closing-title">Bring one critical SAP workflow.<br>Leave with a clearer test strategy.</h2><p>See how PerfecTwin ERP Edition could support your S/4HANA transformation and ongoing regression program.</p></div><a class="btn btn-coral" href="https://perfectwin.ai/en/new_contactus">Map your migration test case <span class="arrow" aria-hidden="true">&#8599;</span></a></div>
     </section>
   </main>
 
@@ -552,6 +637,8 @@
             <li><strong>New features:</strong> Release Notes pp. 4-7 for Web UI, Header-Loop, data, and file improvements; pp. 9-14 for dashboards, GUI Tree, and result storage and cleanup changes.</li>
             <li><strong>Illustrations:</strong> All interface visuals, test values, workflow names, and the sample schedule are illustrative. They are not customer evidence, measured outcomes, or exact reproductions of the product UI.</li>
             <li><strong>Deliberately omitted:</strong> Unverified ROI, speed and coverage statistics, customer endorsements, certifications, U.S. customer or support claims, native desktop GUI claims, pricing, and guarantees of SAP version or migration compatibility.</li>
+            <li><strong>S/4HANA positioning:</strong> This concept frames documented testing capabilities around an S/4HANA transformation use case. It does not claim that PerfecTwin performs the technical conversion, remediates custom code, replaces UAT, governs cutover, or provides full source-to-target data reconciliation.</li>
+            <li><strong>Competitive positioning:</strong> The conventional-versus-PerfecTwin section is a messaging framework, not a Tosca feature comparison or benchmark. Validate any named competitive claims with legal, product, and sales leadership before publication.</li>
             <li><strong>Before publishing:</strong> Obtain HQ and U.S. sales approval of claims and feature availability. Confirm supported SAP versions, deployment and data-handling terms, licensing, support, integration scope, brand assets, and approved case studies. Review AI provider data handling and costs before promotion.</li>
             <li><strong>Demo links:</strong> Buttons navigate to the existing PerfecTwin contact page. This standalone prototype has no lead-capture backend, tracking, remote fonts, or third-party scripts.</li>
           </ul>
